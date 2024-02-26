@@ -3,7 +3,7 @@
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
     `java-gradle-plugin`
-	java
+	id("java")
 id("jacoco")
 }
 
@@ -27,14 +27,21 @@ testImplementation("org.assertj:assertj-core:3.25.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.11"
+	reportsDirectory = layout.buildDirectory.dir("customJacocoReportDir")
 }
 tasks.test {
 	useJUnitPlatform()
 	 finalizedBy(tasks.jacocoTestReport)
 }
 tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
+   // dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        xml.required = true
+        csv.required = true
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
+	
 }
 
 tasks.withType<JavaCompile> {

@@ -4,7 +4,7 @@ plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
     `java-gradle-plugin`
 	java
-jacoco
+id("jacoco")
 }
 
 repositories {
@@ -21,16 +21,21 @@ testImplementation("org.assertj:assertj-core:3.25.1")
         api("org.junit:junit-bom:5.10.1")
         //api("org.assertj:assertj-core:3.25.1")
     }
-	//testImplementation("org.junit:junit-bom:5.10.1")
+	//testImplementation platform("org.junit:junit-bom:5.10.1")
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
-
+jacoco {
+    toolVersion = "0.8.7"
+}
 tasks.test {
 	useJUnitPlatform()
+	 finalizedBy(tasks.jacocoTestReport)
 }
-
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"

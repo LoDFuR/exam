@@ -16,10 +16,12 @@ dependencies {
     // Use JUnit test framework for unit tests
 //val junitBomVersion = "5.10.1"
 testImplementation("org.assertj:assertj-core:3.25.1")
+
   constraints {
         api("org.junit:junit-bom:5.10.1")
         api("org.assertj:assertj-core:3.25.1")
     }
+	//testImplementation("org.junit:junit-bom:5.10.1")
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
